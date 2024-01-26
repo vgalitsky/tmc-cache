@@ -34,7 +34,7 @@ class SimpleFsCache implements CacheInterface
     }
 
     
-    public function set(string $key, mixed $value, null|int|\DateInterval $ttl = null): bool
+    public function set(string $key, mixed $value, int $ttl = null): bool
     {
         return false === file_put_contents($this->getFilePath($key), serialize($value)) ? false : true;
     }
@@ -75,7 +75,7 @@ class SimpleFsCache implements CacheInterface
     }
 
     
-    public function setMultiple(iterable $values, null|int|\DateInterval $ttl = null): bool
+    public function setMultiple(iterable $values, int $ttl = null): bool
     {
         $success = true;
         foreach ($values as $key => $value) {
