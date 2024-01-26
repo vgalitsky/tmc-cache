@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Cl\SimpleCache;
+namespace TMC\Cache;
 
 use Psr\SimpleCache\CacheInterface;
 
 class SimpleFsCache implements CacheInterface
 {
     protected string $path = '';
-    protected string$ext = '.sfscache';
+    protected string $ext = '.tmc.cache';
 
     public function __construct(string $path)
     {
@@ -22,7 +22,7 @@ class SimpleFsCache implements CacheInterface
 
     public function getFilePath($key)
     {
-        return $this->path.DIRECTORY_SEPARATOR.$this->generateKey($key).'.sfscache';
+        return $this->path.DIRECTORY_SEPARATOR.$this->generateKey($key).$this->ext;
     }
 
     public function get(string $key, mixed $default = null): mixed
@@ -48,8 +48,8 @@ class SimpleFsCache implements CacheInterface
     
     public function clear(): bool
     {
-        $fullCache = glob($this->path.DIRECTORY_SEPARATOR.$this->ext, GLOB_ERR);
-        if (false === $fullCache) {
+        $fullCache = glob($this->path.DIRECTORY_SEPARATOR."*{$this->ext}", GLOB_ERR);
+        if (false === $fullCache) {       
             return false;
         }
         $success = true;
